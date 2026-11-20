@@ -1,0 +1,109 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.0.0.1
+    - 172.30.33.0/24
+
+#telegram_bot:
+#  - platform: webhooks
+#    url: !secret FQDN
+#    api_key: !secret TELEGRAM_BOT_API_KEY
+#    allowed_chat_ids:
+#      - !secret TELEGRAM_GROUP_ID
+#      - !secret TELEGRAM_CHAT_ED_ID
+
+mqtt: !include mqtt_sensors.yaml
+# mqtt: !include mqtt_sensors_2.yaml
+
+#notify:
+  #  - name: "ChurchBot"
+  #    platform: telegram
+  #    chat_id: !secret TELEGRAM_GROUP_ID
+  #- name: "ChurchMailer"
+  #  platform: smtp
+  #  server: "smtp.gmail.com"
+  #  port: 587
+  #  timeout: 15
+  #  sender: !secret SMTP_SENDER
+  #  username: !secret SMTP_SENDER
+  #  encryption: starttls
+  #  password: !secret SMTP_PASSWORD
+  #  recipient:
+  #    - !secret SMTP_SENDER
+  #  sender_name: "ChurchMailer"
+
+sensor:
+  - platform: history_stats
+    name: Ed's AJ Hours
+    entity_id: person.ed
+    state: "Work-AJ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Ed's WQ Hours
+    entity_id: person.ed
+    state: "Work-WQ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Laura's WQ Hours
+    entity_id: person.laura
+    state: "Work-WQ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Laura's AJ Hours
+    entity_id: person.laura
+    state: "Work-AJ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Victoria's AJ Hours
+    entity_id: device_tracker.victoria_location_2
+    state: "Work-AJ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Victoria's WQ Hours
+    entity_id: device_tracker.victoria_location_2
+    state: "Work-WQ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Vendetta's WQ Hours
+    entity_id: device_tracker.vendetta_location
+    state: "Work-WQ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Vendetta's AJ Hours
+    entity_id: device_tracker.vendetta_location
+    state: "Work-AJ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"

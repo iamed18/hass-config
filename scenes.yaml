@@ -1,0 +1,193 @@
+- id: '1731741396503'
+  name: Nighttime / Away Lights
+  entities:
+    light.dining_lamp_bulb:
+      min_color_temp_kelvin: 2500
+      max_color_temp_kelvin: 6500
+      min_mireds: 153
+      max_mireds: 400
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      icon: mdi:lamp
+      friendly_name: Dining Lamp Bulb
+      supported_features: 32
+      state: 'off'
+    light.entryway_bulb:
+      min_color_temp_kelvin: 2500
+      max_color_temp_kelvin: 6500
+      min_mireds: 153
+      max_mireds: 400
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Entryway Bulb
+      supported_features: 32
+      state: 'off'
+    light.ed_nightstand_bulb:
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      icon: mdi:lamp
+      friendly_name: Ed Nightstand Bulb
+      supported_features: 32
+      state: 'off'
+    light.standing_lamp:
+      min_color_temp_kelvin: 2500
+      max_color_temp_kelvin: 6500
+      min_mireds: 153
+      max_mireds: 400
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      icon: mdi:floor-lamp
+      friendly_name: Standing Lamp Bulb
+      supported_features: 32
+      state: 'off'
+    light.laura_nightstand_bulb:
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      icon: mdi:lamp
+      friendly_name: Laura Nightstand Bulb
+      supported_features: 32
+      state: 'off'
+    switch.living_room_garland:
+      friendly_name: Living Room Garland
+      state: 'off'
+    switch.dining_garland:
+      friendly_name: Dining Garland
+      state: 'off'
+    switch.reading_lamp:
+      friendly_name: Reading Lamp
+      state: 'off'
+    switch.corner_lamp:
+      friendly_name: Corner Lamp
+      state: 'off'
+  icon: mdi:string-lights-off
+  metadata: {}
+- id: '1731742634255'
+  name: Main Bedtime
+  entities:
+    light.ed_nightstand_bulb:
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      icon: mdi:lamp
+      friendly_name: Ed Nightstand Bulb
+      supported_features: 32
+      state: 'off'
+    light.laura_nightstand_bulb:
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      icon: mdi:lamp
+      friendly_name: Laura Nightstand Bulb
+      supported_features: 32
+      state: 'off'
+    switch.noise_machine:
+      friendly_name: Noise Machine
+      state: 'on'
+  icon: mdi:sleep
+  metadata:
+    light.ed_nightstand_bulb:
+      entity_only: true
+    light.laura_nightstand_bulb:
+      entity_only: true
+    switch.noise_machine:
+      entity_only: true
+- id: '1731850048805'
+  name: 'Cozy Christmas '
+  entities:
+    switch.dining_garland:
+      friendly_name: Dining Garland
+      state: 'on'
+    switch.living_room_garland:
+      friendly_name: Living Room Garland
+      state: 'on'
+    switch.reading_lamp:
+      restored: true
+      friendly_name: Reading Lamp
+      supported_features: 0
+      state: unavailable
+  metadata:
+    switch.dining_garland:
+      entity_only: true
+    switch.living_room_garland:
+      entity_only: true
+    switch.reading_lamp:
+      entity_only: true
+  icon: mdi:saxophone
+- id: '1732252846756'
+  name: Evening Driveway Lights
+  entities:
+    switch.exterior_flaming_lamps:
+      device_id: '5'
+      zone_id: '4'
+      friendly_name: Exterior Flaming Lamps
+      state: 'on'
+    light.exterior_driveway_light:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      device_id: '9'
+      zone_id: '8'
+      friendly_name: Exterior Driveway Light
+      supported_features: 32
+      state: 'on'
+  icon: mdi:outdoor-lamp
+  metadata:
+    switch.exterior_flaming_lamps:
+      entity_only: true
+    light.exterior_driveway_light:
+      entity_only: true
+- id: '1732252990657'
+  name: Evening Driveway Lights Out
+  entities:
+    light.exterior_driveway_light:
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      device_id: '9'
+      zone_id: '8'
+      friendly_name: Exterior Driveway Light
+      supported_features: 32
+      state: 'off'
+    switch.exterior_flaming_lamps:
+      device_id: '5'
+      zone_id: '4'
+      friendly_name: Exterior Flaming Lamps
+      state: 'off'
+  icon: mdi:outdoor-lamp
+  metadata:
+    light.exterior_driveway_light:
+      entity_only: true
+    switch.exterior_flaming_lamps:
+      entity_only: true

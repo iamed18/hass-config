@@ -1,0 +1,44 @@
+# Secrets, credentials, and keys
+secrets.yaml
+.env
+.env.*
+*.key
+*.key.*
+*.pem
+*.crt
+*.csr
+*.p12
+*.pfx
+*token*
+access_token.txt
+
+# Home Assistant runtime, storage, and state (contains OAuth tokens & auth data)
+.storage/
+.cloud/
+.cache/
+.ha_run.lock
+.HA_VERSION
+.shopping_list.json
+deps/
+tts/
+image/
+
+# Databases and logs
+*.db
+*.db-shm
+*.db-wal
+*.sqlite*
+*.log
+*.log.*
+home-assistant.log*
+
+# Third-party integrations & cached media
+custom_components/
+www/tapo_control/
+__pycache__/
+*.pyc
+
+# Old manual backups & OS junk
+*_back.yaml
+mqtt_sensors_2.yaml
+.DS_Store

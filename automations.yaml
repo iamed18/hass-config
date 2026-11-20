@@ -1,0 +1,348 @@
+- id: '1731880908387'
+  alias: Cozy Jazz
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - scene.cozy
+  conditions: []
+  actions:
+  - action: script.play_christmas_jazz
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1732252444364'
+  alias: Cloudflare DNS Update
+  description: ''
+  triggers:
+  - trigger: homeassistant
+    event: start
+  - trigger: state
+    entity_id:
+    - sensor.myip
+  conditions: []
+  actions:
+  - action: cloudflare.update_records
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1732253083966'
+  alias: Evening Driveway Lights
+  description: ''
+  triggers:
+  - trigger: sun
+    event: sunset
+    offset: -00:15:00
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.evening_driveway_lights
+  mode: single
+- id: '1732253169477'
+  alias: Evening Driveway Lights Out
+  description: ''
+  triggers:
+  - trigger: time
+    at: '22:00:00'
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.evening_driveway_lights_out
+  mode: single
+- id: '1733454163237'
+  alias: Start Cars Charging
+  description: ''
+  triggers:
+  - trigger: time
+    at: '23:00:00'
+  conditions: []
+  actions:
+  - sequence:
+    - action: homeassistant.reload_config_entry
+      metadata: {}
+      data:
+        entry_id: 01JKSFRV6BDX8GJBGQMWGZVK5C
+    - delay:
+        hours: 0
+        minutes: 1
+        seconds: 0
+        milliseconds: 0
+    - action: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.cph50_charging_session
+    - device_id: 63d05374a092b14732f9e6119c0ca4f6
+      domain: button
+      entity_id: c00c09f3141c7e8b45bf0d6a0c0fbf7f
+      type: press
+    - device_id: 1283caaf4f8ae7389b359a2753b68365
+      domain: button
+      entity_id: 4b8713953d6423f3d0d07bbae65c9ca9
+      type: press
+    - delay:
+        hours: 0
+        minutes: 1
+        seconds: 0
+        milliseconds: 0
+    - action: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.victoria_charge
+        - switch.vendetta_charge
+  mode: single
+- id: '1739339999540'
+  alias: Victoria Plugin Reminder
+  description: ''
+  triggers:
+  - trigger: time
+    at: '21:10:00'
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.victoria_charge_cable
+    state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.victoria_est_battery_range
+    below: 100
+  actions:
+  - action: notify.mobile_app_ed_phone
+    metadata: {}
+    data:
+      data:
+        notification_icon: mdi:ev-plug-tesla
+      message: Current range is {{ states("sensor.victoria_est_battery_range") | round(0)
+        }} miles
+      title: Plug in Victoria
+  - action: notify.mobile_app_laura_phone
+    metadata: {}
+    data:
+      message: Current range is {{ states("sensor.victoria_est_battery_range") | round(0)
+        }} miles
+      title: Plug in Victoria
+      data:
+        notification_icon: mdi:ev-plug-tesla
+  mode: single
+- id: '1739340078163'
+  alias: Vendetta Plugin Reminder
+  description: ''
+  triggers:
+  - trigger: time
+    at: '21:10:00'
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.vendetta_charge_cable
+    state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.vendetta_battery_range
+    below: 100
+  actions:
+  - action: notify.mobile_app_ed_phone
+    metadata: {}
+    data:
+      data:
+        notification_icon: mdi:ev-plug-tesla
+      title: Plug in Vendetta
+      message: Current range is {{ states("sensor.vendetta_est_battery_range") | round(0)
+        }} miles
+  - action: notify.mobile_app_laura_phone
+    metadata: {}
+    data:
+      message: Current range is {{ states("sensor.vendetta_est_battery_range") | round(0)
+        }} miles
+      title: Plug in Vendetta
+      data:
+        notification_icon: mdi:ev-plug-tesla
+  mode: single
+- id: '1748717818742'
+  alias: Wash Notifier
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.washer_current_status
+    to: power_off
+  conditions: []
+  actions:
+  - action: notify.mobile_app_ed_phone
+    metadata: {}
+    data:
+      title: Laundry Notification
+      message: Washing machine cycle complete
+      data:
+        notification_icon: mdi:washing-machine
+  - action: notify.mobile_app_laura_phone
+    metadata: {}
+    data:
+      message: Washing machine cycle complete
+      title: Laundry Notification
+      data:
+        notification_icon: mdi:washing-machine
+  mode: single
+- id: '1748717911012'
+  alias: Drying Notification
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.dryer_current_status
+    to: power_off
+  conditions: []
+  actions:
+  - action: notify.mobile_app_ed_phone
+    metadata: {}
+    data:
+      title: Laundry Notification
+      message: Drying cycle complete
+      data:
+        notification_icon: mdi:tshirt-v
+  - action: notify.mobile_app_laura_phone
+    metadata: {}
+    data:
+      message: Drying cycle complete
+      title: Laundry Notification
+      data:
+        notification_icon: mdi:tshirt-v
+  mode: single
+- id: '1750310770286'
+  alias: Arrive Home Lights
+  description: ''
+  triggers:
+  - device_id: bac1b25b137b6e5318ad74b13328e330
+    domain: device_tracker
+    entity_id: b9be13422641717cbf8c9296c4388072
+    type: enters
+    trigger: device
+    zone: zone.home
+  - device_id: a21dc8d8acc60b529d24e82c47808e6d
+    domain: device_tracker
+    entity_id: 128e78cfb16461d9dd222dfe3ae86adc
+    type: enters
+    trigger: device
+    zone: zone.home
+  conditions: []
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data:
+      transition: 10
+    target:
+      entity_id:
+      - light.kitchen_display_cabinet
+      - light.kitchen_under_cabinet
+      - light.standing_lamp
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.reading_lamp
+  - action: light.turn_on
+    metadata: {}
+    data:
+      brightness_pct: 20
+    target:
+      entity_id: light.office_spot_lights
+  mode: single
+- id: '1750397261464'
+  alias: Work Hours Mailer
+  description: ''
+  triggers:
+  - trigger: time
+    at: '23:55:00'
+  conditions: []
+  actions:
+  - action: notify.churchmailer
+    metadata: {}
+    data:
+      target:
+      - !secret ED_WORK_EMAIL
+      - !secret LAURA_WORK_EMAIL
+      title: WorkHours
+      message: 'Laura AJ+WQ Hours: {{ states("sensor.laura_s_aj_hours") }} + {{ states("sensor.laura_s_wq_hours")
+        }}
+
+        Vendetta AJ+WQ Hour: {{ states("sensor.vendetta_s_aj_hours") }} + {{ states("sensor.vendetta_s_wq_hours")
+        }}
+
+        ---
+
+        Ed AJ+WQ Hours: {{ states("sensor.ed_s_aj_hours") }} + {{ states("sensor.ed_s_wq_hours")
+        }}
+
+        Victoria AJ+WQ Hour: {{ states("sensor.victoria_s_aj_hours") }} + {{ states("sensor.victoria_s_wq_hours")
+        }}
+
+        '
+  mode: single
+- id: '1752458798501'
+  alias: 'Dehumidifier: AM Turn Off '
+  description: ''
+  triggers:
+  - trigger: time
+    at: 05:00:00
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.dehumidifier_2
+  mode: single
+- id: '1752458912099'
+  alias: 'Dehumidifier: PM Turn On'
+  description: ''
+  triggers:
+  - trigger: time
+    at: '21:45:00'
+  conditions: []
+  actions:
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.dehumidifier_2
+  mode: single
+- id: '1755586424225'
+  alias: Stop Vicky Charging AM
+  description: ''
+  triggers:
+  - trigger: time
+    at: 06:45:00
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.victoria_charge
+  mode: single
+- id: '1771382915027'
+  alias: SSL Renewal
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.ha_thephysicist_us_cert_expiry
+    attribute: is_valid
+    to:
+    - 'false'
+  conditions:
+  - condition: state
+    entity_id: sensor.ha_thephysicist_us_cert_expiry
+    state: []
+    attribute: is_valid
+  actions:
+  - action: hassio.addon_start
+    metadata: {}
+    data:
+      addon: core_letsencrypt
+  - action: hassio.addon_restart
+    metadata: {}
+    data:
+      addon: core_nginx_proxy
+  mode: single
