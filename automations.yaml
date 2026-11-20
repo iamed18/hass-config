@@ -111,7 +111,7 @@
     entity_id: sensor.victoria_est_battery_range
     below: 100
   actions:
-  - action: notify.mobile_app_ed_phone
+  - action: notify.mobile_app_hinton
     metadata: {}
     data:
       data:
@@ -119,7 +119,7 @@
       message: Current range is {{ states("sensor.victoria_est_battery_range") | round(0)
         }} miles
       title: Plug in Victoria
-  - action: notify.mobile_app_laura_phone
+  - action: notify.mobile_app_pixel_11_pro
     metadata: {}
     data:
       message: Current range is {{ states("sensor.victoria_est_battery_range") | round(0)
@@ -142,7 +142,7 @@
     entity_id: sensor.vendetta_battery_range
     below: 100
   actions:
-  - action: notify.mobile_app_ed_phone
+  - action: notify.mobile_app_hinton
     metadata: {}
     data:
       data:
@@ -150,7 +150,7 @@
       title: Plug in Vendetta
       message: Current range is {{ states("sensor.vendetta_est_battery_range") | round(0)
         }} miles
-  - action: notify.mobile_app_laura_phone
+  - action: notify.mobile_app_pixel_11_pro
     metadata: {}
     data:
       message: Current range is {{ states("sensor.vendetta_est_battery_range") | round(0)
@@ -169,14 +169,14 @@
     to: power_off
   conditions: []
   actions:
-  - action: notify.mobile_app_ed_phone
+  - action: notify.mobile_app_hinton
     metadata: {}
     data:
       title: Laundry Notification
       message: Washing machine cycle complete
       data:
         notification_icon: mdi:washing-machine
-  - action: notify.mobile_app_laura_phone
+  - action: notify.mobile_app_pixel_11_pro
     metadata: {}
     data:
       message: Washing machine cycle complete
@@ -194,14 +194,14 @@
     to: power_off
   conditions: []
   actions:
-  - action: notify.mobile_app_ed_phone
+  - action: notify.mobile_app_hinton
     metadata: {}
     data:
       title: Laundry Notification
       message: Drying cycle complete
       data:
         notification_icon: mdi:tshirt-v
-  - action: notify.mobile_app_laura_phone
+  - action: notify.mobile_app_pixel_11_pro
     metadata: {}
     data:
       message: Drying cycle complete
@@ -259,7 +259,9 @@
   - action: notify.send_message
     metadata: {}
     target:
-      entity_id: notify.churchmailer_iamed18_gmail_com
+      entity_id:
+      - notify.churchmailer_iamed18_gmail_com
+      - notify.churchmailer_laura_work_email
     data:
       title: WorkHours
       message: 'Laura AJ+WQ Hours: {{ states("sensor.laura_s_aj_hours") }} + {{ states("sensor.laura_s_wq_hours")
