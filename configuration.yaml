@@ -45,22 +45,6 @@ mqtt: !include mqtt_sensors.yaml
 
 sensor:
   - platform: history_stats
-    name: Ed's AJ Hours
-    entity_id: person.ed
-    state: "Work-AJ"
-    type: time
-    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
-    end: "{{ now() }}"
-
-  - platform: history_stats
-    name: Ed's WQ Hours
-    entity_id: person.ed
-    state: "Work-WQ"
-    type: time
-    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
-    end: "{{ now() }}"
-
-  - platform: history_stats
     name: Laura's WQ Hours
     entity_id: person.laura
     state: "Work-WQ"

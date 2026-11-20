@@ -256,25 +256,16 @@
     at: '23:55:00'
   conditions: []
   actions:
-  - action: notify.churchmailer
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.churchmailer_iamed18_gmail_com
     data:
-      target:
-      - !secret ED_WORK_EMAIL
-      - !secret LAURA_WORK_EMAIL
       title: WorkHours
       message: 'Laura AJ+WQ Hours: {{ states("sensor.laura_s_aj_hours") }} + {{ states("sensor.laura_s_wq_hours")
         }}
 
-        Vendetta AJ+WQ Hour: {{ states("sensor.vendetta_s_aj_hours") }} + {{ states("sensor.vendetta_s_wq_hours")
-        }}
-
-        ---
-
-        Ed AJ+WQ Hours: {{ states("sensor.ed_s_aj_hours") }} + {{ states("sensor.ed_s_wq_hours")
-        }}
-
-        Victoria AJ+WQ Hour: {{ states("sensor.victoria_s_aj_hours") }} + {{ states("sensor.victoria_s_wq_hours")
+        Vendetta AJ+WQ Hours: {{ states("sensor.vendetta_s_aj_hours") }} + {{ states("sensor.vendetta_s_wq_hours")
         }}
 
         '
@@ -323,24 +314,22 @@
   mode: single
 - id: '1771382915027'
   alias: SSL Renewal
-  description: ''
+  description: Renew Let's Encrypt certificate when expiring within 21 days or invalid
   triggers:
-  - trigger: state
-    entity_id:
-    - sensor.ha_thephysicist_us_cert_expiry
-    attribute: is_valid
-    to:
-    - 'false'
+  - trigger: time
+    at: 03:00:00
   conditions:
-  - condition: state
-    entity_id: sensor.ha_thephysicist_us_cert_expiry
-    state: []
-    attribute: is_valid
+  - condition: template
+    value_template: >-
+      {{ not state_attr('sensor.ha_thephysicist_us_cert_expiry', 'is_valid')
+         or (as_datetime(states('sensor.ha_thephysicist_us_cert_expiry')) - now()).days < 21 }}
   actions:
   - action: hassio.addon_start
     metadata: {}
     data:
       addon: core_letsencrypt
+  - delay:
+      minutes: 3
   - action: hassio.addon_restart
     metadata: {}
     data:
