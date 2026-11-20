@@ -14,7 +14,7 @@
 
 - device_tracker:
     name: Location
-    default_entity_id: sensor.vendetta_location
+    default_entity_id: device_tracker.vendetta_location
     unique_id: teslamate_1_location
     device: *teslamate_device_info
     json_attributes_topic: "teslamate/cars/1/location"
@@ -22,7 +22,7 @@
 
 - device_tracker:
     name: Active route location
-    default_entity_id: sensor.vendetta_1_active_route_location
+    default_entity_id: device_tracker.vendetta_1_active_route_location
     unique_id: teslamate_1_active_route_location
     availability: &teslamate_active_route_availability
       - topic: "teslamate/cars/1/active_route"
@@ -126,7 +126,7 @@
 
 - binary_sensor:
     name: Parking Brake
-    default_entity_id: sensor.vendetta_park_brake
+    default_entity_id: binary_sensor.vendetta_park_brake
     unique_id: teslamate_1_park_brake
     device: *teslamate_device_info
     state_topic: "teslamate/cars/1/shift_state"
@@ -498,7 +498,7 @@
 
 - binary_sensor:
     name: Healthy
-    default_entity_id: sensor.vendetta_healthy
+    default_entity_id: binary_sensor.vendetta_healthy
     unique_id: teslamate_1_healthy
     device: *teslamate_device_info
     state_topic: "teslamate/cars/1/healthy"
@@ -508,7 +508,7 @@
 
 - binary_sensor:
     name: Update Available
-    default_entity_id: sensor.vendetta_update_available
+    default_entity_id: binary_sensor.vendetta_update_available
     unique_id: teslamate_1_update_available
     device: *teslamate_device_info
     state_topic: "teslamate/cars/1/update_available"
@@ -518,7 +518,7 @@
 
 - binary_sensor:
     name: Locked
-    default_entity_id: sensor.vendetta_locked
+    default_entity_id: binary_sensor.vendetta_locked
     unique_id: teslamate_1_locked
     device: *teslamate_device_info
     device_class: lock
@@ -528,7 +528,7 @@
 
 - binary_sensor:
     name: Sentry Mode
-    default_entity_id: sensor.vendetta_sentry_mode
+    default_entity_id: binary_sensor.vendetta_sentry_mode
     unique_id: teslamate_1_sentry_mode
     device: *teslamate_device_info
     state_topic: "teslamate/cars/1/sentry_mode"
@@ -538,7 +538,7 @@
 
 - binary_sensor:
     name: Windows Open
-    default_entity_id: sensor.vendetta_windows_open
+    default_entity_id: binary_sensor.vendetta_windows_open
     unique_id: teslamate_1_windows_open
     device: *teslamate_device_info
     device_class: window
@@ -549,7 +549,7 @@
 
 - binary_sensor:
     name: Doors Open
-    default_entity_id: sensor.vendetta_doors_open
+    default_entity_id: binary_sensor.vendetta_doors_open
     unique_id: teslamate_1_doors_open
     device: *teslamate_device_info
     device_class: door
@@ -560,7 +560,7 @@
 
 - binary_sensor:
     name: Trunk Open
-    default_entity_id: sensor.vendetta_trunk_open
+    default_entity_id: binary_sensor.vendetta_trunk_open
     unique_id: teslamate_1_trunk_open
     device: *teslamate_device_info
     device_class: opening
@@ -571,7 +571,7 @@
 
 - binary_sensor:
     name: Frunk Open
-    default_entity_id: sensor.vendetta_frunk_open
+    default_entity_id: binary_sensor.vendetta_frunk_open
     unique_id: teslamate_1_frunk_open
     device: *teslamate_device_info
     device_class: opening
@@ -582,7 +582,7 @@
 
 - binary_sensor:
     name: Is User Present
-    default_entity_id: sensor.vendetta_is_user_present
+    default_entity_id: binary_sensor.vendetta_is_user_present
     unique_id: teslamate_1_is_user_present
     device: *teslamate_device_info
     device_class: presence
@@ -593,7 +593,7 @@
 
 - binary_sensor:
     name: Is Climate On
-    default_entity_id: sensor.vendetta_is_climate_on
+    default_entity_id: binary_sensor.vendetta_is_climate_on
     unique_id: teslamate_1_is_climate_on
     device: *teslamate_device_info
     state_topic: "teslamate/cars/1/is_climate_on"
@@ -603,7 +603,7 @@
 
 - binary_sensor:
     name: Is Preconditioning
-    default_entity_id: sensor.vendetta_is_preconditioning
+    default_entity_id: binary_sensor.vendetta_is_preconditioning
     unique_id: teslamate_1_is_preconditioning
     device: *teslamate_device_info
     state_topic: "teslamate/cars/1/is_preconditioning"
@@ -613,7 +613,7 @@
 
 - binary_sensor:
     name: Plugged In
-    default_entity_id: sensor.vendetta_plugged_in
+    default_entity_id: binary_sensor.vendetta_plugged_in
     unique_id: teslamate_1_plugged_in
     device: *teslamate_device_info
     device_class: plug
@@ -624,7 +624,7 @@
 
 - binary_sensor:
     name: Charge Port Door OPEN
-    default_entity_id: sensor.vendetta_charge_port_door_open
+    default_entity_id: binary_sensor.vendetta_charge_port_door_open
     unique_id: teslamate_1_charge_port_door_open
     device: *teslamate_device_info
     device_class: opening
@@ -648,7 +648,7 @@
 
 - device_tracker:
     name: Location
-    default_entity_id: sensor.victoria_location
+    default_entity_id: device_tracker.victoria_location
     unique_id: teslamate_2_location
     device: *teslamate_device_info_2
     json_attributes_topic: "teslamate/cars/2/location"
@@ -656,7 +656,7 @@
 
 - device_tracker:
     name: Active route location
-    default_entity_id: sensor.victoria_2_active_route_location
+    default_entity_id: device_tracker.victoria_2_active_route_location
     unique_id: teslamate_2_active_route_location
     availability: &teslamate_2_active_route_availability
       - topic: "teslamate/cars/2/active_route"
@@ -760,7 +760,7 @@
 
 - binary_sensor:
     name: Parking Brake
-    default_entity_id: sensor.victoria_park_brake
+    default_entity_id: binary_sensor.victoria_park_brake
     unique_id: teslamate_2_park_brake
     device: *teslamate_device_info_2
     state_topic: "teslamate/cars/2/shift_state"
@@ -1132,7 +1132,7 @@
 
 - binary_sensor:
     name: Healthy
-    default_entity_id: sensor.victoria_healthy
+    default_entity_id: binary_sensor.victoria_healthy
     unique_id: teslamate_2_healthy
     device: *teslamate_device_info_2
     state_topic: "teslamate/cars/2/healthy"
@@ -1142,7 +1142,7 @@
 
 - binary_sensor:
     name: Update Available
-    default_entity_id: sensor.victoria_update_available
+    default_entity_id: binary_sensor.victoria_update_available
     unique_id: teslamate_2_update_available
     device: *teslamate_device_info_2
     state_topic: "teslamate/cars/2/update_available"
@@ -1152,7 +1152,7 @@
 
 - binary_sensor:
     name: Locked
-    default_entity_id: sensor.victoria_locked
+    default_entity_id: binary_sensor.victoria_locked
     unique_id: teslamate_2_locked
     device: *teslamate_device_info_2
     device_class: lock
@@ -1162,7 +1162,7 @@
 
 - binary_sensor:
     name: Sentry Mode
-    default_entity_id: sensor.victoria_sentry_mode
+    default_entity_id: binary_sensor.victoria_sentry_mode
     unique_id: teslamate_2_sentry_mode
     device: *teslamate_device_info_2
     state_topic: "teslamate/cars/2/sentry_mode"
@@ -1172,7 +1172,7 @@
 
 - binary_sensor:
     name: Windows Open
-    default_entity_id: sensor.victoria_windows_open
+    default_entity_id: binary_sensor.victoria_windows_open
     unique_id: teslamate_2_windows_open
     device: *teslamate_device_info_2
     device_class: window
@@ -1183,7 +1183,7 @@
 
 - binary_sensor:
     name: Doors Open
-    default_entity_id: sensor.victoria_doors_open
+    default_entity_id: binary_sensor.victoria_doors_open
     unique_id: teslamate_2_doors_open
     device: *teslamate_device_info_2
     device_class: door
@@ -1194,7 +1194,7 @@
 
 - binary_sensor:
     name: Trunk Open
-    default_entity_id: sensor.victoria_trunk_open
+    default_entity_id: binary_sensor.victoria_trunk_open
     unique_id: teslamate_2_trunk_open
     device: *teslamate_device_info_2
     device_class: opening
@@ -1205,7 +1205,7 @@
 
 - binary_sensor:
     name: Frunk Open
-    default_entity_id: sensor.victoria_frunk_open
+    default_entity_id: binary_sensor.victoria_frunk_open
     unique_id: teslamate_2_frunk_open
     device: *teslamate_device_info_2
     device_class: opening
@@ -1216,7 +1216,7 @@
 
 - binary_sensor:
     name: Is User Present
-    default_entity_id: sensor.victoria_is_user_present
+    default_entity_id: binary_sensor.victoria_is_user_present
     unique_id: teslamate_2_is_user_present
     device: *teslamate_device_info_2
     device_class: presence
@@ -1227,7 +1227,7 @@
 
 - binary_sensor:
     name: Is Climate On
-    default_entity_id: sensor.victoria_is_climate_on
+    default_entity_id: binary_sensor.victoria_is_climate_on
     unique_id: teslamate_2_is_climate_on
     device: *teslamate_device_info_2
     state_topic: "teslamate/cars/2/is_climate_on"
@@ -1237,7 +1237,7 @@
 
 - binary_sensor:
     name: Is Preconditioning
-    default_entity_id: sensor.victoria_is_preconditioning
+    default_entity_id: binary_sensor.victoria_is_preconditioning
     unique_id: teslamate_2_is_preconditioning
     device: *teslamate_device_info_2
     state_topic: "teslamate/cars/2/is_preconditioning"
@@ -1247,7 +1247,7 @@
 
 - binary_sensor:
     name: Plugged In
-    default_entity_id: sensor.victoria_plugged_in
+    default_entity_id: binary_sensor.victoria_plugged_in
     unique_id: teslamate_2_plugged_in
     device: *teslamate_device_info_2
     device_class: plug
@@ -1258,7 +1258,7 @@
 
 - binary_sensor:
     name: Charge Port Door OPEN
-    default_entity_id: sensor.victoria_charge_port_door_open
+    default_entity_id: binary_sensor.victoria_charge_port_door_open
     unique_id: teslamate_2_charge_port_door_open
     device: *teslamate_device_info_2
     device_class: opening
