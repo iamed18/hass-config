@@ -225,7 +225,14 @@
     type: enters
     trigger: device
     zone: zone.home
-  conditions: []
+  conditions:
+  - condition: or
+    conditions:
+    - condition: sun
+      after: sunset
+      after_offset: -00:30:00
+    - condition: sun
+      before: sunrise
   actions:
   - action: light.turn_on
     metadata: {}
@@ -336,4 +343,103 @@
     metadata: {}
     data:
       addon: core_nginx_proxy
+  mode: single
+- id: '1795140001001'
+  alias: Everyone Left Home Auto-Off
+  description: Turn off indoor lights, lamps, and noise machine when nobody is home for 10 minutes
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - zone.home
+    below: 1
+    for:
+      minutes: 10
+  conditions: []
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - light.dining_lamp_bulb
+      - light.ed_nightstand_bulb
+      - light.entryway_bulb
+      - light.family_room_main_lights
+      - light.front_foyer_chandelier
+      - light.garage_entry_sconces
+      - light.kitchen_display_cabinet
+      - light.kitchen_island_pendants
+      - light.kitchen_main_lights
+      - light.kitchen_under_cabinet
+      - light.laura_nightstand_bulb
+      - light.living_room_fireplace
+      - light.living_room_nook
+      - light.office_spot_lights
+      - light.standing_lamp
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - switch.corner_lamp
+      - switch.reading_lamp
+      - switch.noise_machine
+  mode: single
+- id: '1795140001002'
+  alias: Nightly Common-Area Lights Off
+  description: Turn off common-area lights and lamps at 11:00 PM (excluding office spots and bedroom)
+  triggers:
+  - trigger: time
+    at: '23:00:00'
+  conditions: []
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - light.dining_lamp_bulb
+      - light.entryway_bulb
+      - light.family_room_main_lights
+      - light.front_foyer_chandelier
+      - light.garage_entry_sconces
+      - light.kitchen_display_cabinet
+      - light.kitchen_island_pendants
+      - light.kitchen_main_lights
+      - light.kitchen_under_cabinet
+      - light.living_room_fireplace
+      - light.living_room_nook
+      - light.standing_lamp
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - switch.corner_lamp
+      - switch.reading_lamp
+  mode: single
+- id: '1795140001003'
+  alias: Bedroom Off When Laura Leaves Home
+  description: Turn off noise machine and nightstand bulbs when Laura leaves home
+  triggers:
+  - trigger: state
+    entity_id:
+    - person.laura
+    from: home
+    for:
+      minutes: 2
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.noise_machine
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - light.laura_nightstand_bulb
+      - light.ed_nightstand_bulb
   mode: single
