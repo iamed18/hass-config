@@ -266,9 +266,7 @@
   - action: notify.send_message
     metadata: {}
     target:
-      entity_id:
-      - notify.churchmailer_iamed18_gmail_com
-      - notify.churchmailer_laura_work_email
+      entity_id: notify.churchmailer_laura_work_email
     data:
       title: WorkHours
       message: 'Laura AJ+WQ Hours: {{ states("sensor.laura_s_aj_hours") }} + {{ states("sensor.laura_s_wq_hours")
