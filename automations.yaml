@@ -420,3 +420,48 @@
       - light.laura_nightstand_bulb
       - light.ed_nightstand_bulb
   mode: single
+- id: '1795478001000'
+  alias: Evening Bedroom Lights and Noise Machine
+  description: Turn on nightstand lights and noise machine at 7:45 PM if Laura is home, or when she arrives home later that evening
+  triggers:
+  - trigger: time
+    at: '19:45:00'
+    id: scheduled
+  - trigger: state
+    entity_id:
+    - person.laura
+    to: home
+    not_from:
+    - unavailable
+    - unknown
+    id: arrived
+  conditions:
+  - condition: state
+    entity_id: person.laura
+    state: home
+  - condition: or
+    conditions:
+    - condition: trigger
+      id: scheduled
+    - condition: and
+      conditions:
+      - condition: time
+        after: '19:45:00'
+        before: '04:00:00'
+      - condition: state
+        entity_id: switch.noise_machine
+        state: 'off'
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - light.laura_nightstand_bulb
+      - light.ed_nightstand_bulb
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.noise_machine
+  mode: single
