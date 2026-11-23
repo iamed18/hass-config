@@ -53,76 +53,32 @@
     target:
       entity_id: scene.evening_driveway_lights_out
   mode: single
-- id: '1733454163237'
-  alias: Start Cars Charging
-  description: ''
-  triggers:
-  - trigger: time
-    at: '23:00:00'
-  conditions: []
-  actions:
-  - sequence:
-    - action: homeassistant.reload_config_entry
-      metadata: {}
-      data:
-        entry_id: 01JKSFRV6BDX8GJBGQMWGZVK5C
-    - delay:
-        hours: 0
-        minutes: 1
-        seconds: 0
-        milliseconds: 0
-    - action: switch.turn_on
-      metadata: {}
-      data: {}
-      target:
-        entity_id: switch.cph50_charging_session
-    - device_id: 63d05374a092b14732f9e6119c0ca4f6
-      domain: button
-      entity_id: c00c09f3141c7e8b45bf0d6a0c0fbf7f
-      type: press
-    - device_id: 1283caaf4f8ae7389b359a2753b68365
-      domain: button
-      entity_id: 4b8713953d6423f3d0d07bbae65c9ca9
-      type: press
-    - delay:
-        hours: 0
-        minutes: 1
-        seconds: 0
-        milliseconds: 0
-    - action: switch.turn_on
-      metadata: {}
-      data: {}
-      target:
-        entity_id:
-        - switch.victoria_charge
-        - switch.vendetta_charge
-  mode: single
 - id: '1739339999540'
   alias: Victoria Plugin Reminder
-  description: ''
+  description: Notify Ed and Laura at 10 PM if Victoria is unplugged and below 150 miles rated range
   triggers:
   - trigger: time
-    at: '21:10:00'
+    at: '22:00:00'
   conditions:
   - condition: state
-    entity_id: binary_sensor.victoria_charge_cable
+    entity_id: binary_sensor.victoria_plugged_in
     state: 'off'
   - condition: numeric_state
-    entity_id: sensor.victoria_est_battery_range
-    below: 100
+    entity_id: sensor.victoria_rated_battery_range
+    below: 150
   actions:
   - action: notify.mobile_app_hinton
     metadata: {}
     data:
       data:
         notification_icon: mdi:ev-plug-tesla
-      message: Current range is {{ states("sensor.victoria_est_battery_range") | round(0)
+      message: Current range is {{ states("sensor.victoria_rated_battery_range") | round(0)
         }} miles
       title: Plug in Victoria
   - action: notify.mobile_app_pixel_11_pro
     metadata: {}
     data:
-      message: Current range is {{ states("sensor.victoria_est_battery_range") | round(0)
+      message: Current range is {{ states("sensor.victoria_rated_battery_range") | round(0)
         }} miles
       title: Plug in Victoria
       data:
@@ -130,17 +86,17 @@
   mode: single
 - id: '1739340078163'
   alias: Vendetta Plugin Reminder
-  description: ''
+  description: Notify Ed and Laura at 10 PM if Vendetta is unplugged and below 150 miles rated range
   triggers:
   - trigger: time
-    at: '21:10:00'
+    at: '22:00:00'
   conditions:
   - condition: state
-    entity_id: binary_sensor.vendetta_charge_cable
+    entity_id: binary_sensor.vendetta_plugged_in
     state: 'off'
   - condition: numeric_state
-    entity_id: sensor.vendetta_battery_range
-    below: 100
+    entity_id: sensor.vendetta_rated_battery_range
+    below: 150
   actions:
   - action: notify.mobile_app_hinton
     metadata: {}
@@ -148,12 +104,12 @@
       data:
         notification_icon: mdi:ev-plug-tesla
       title: Plug in Vendetta
-      message: Current range is {{ states("sensor.vendetta_est_battery_range") | round(0)
+      message: Current range is {{ states("sensor.vendetta_rated_battery_range") | round(0)
         }} miles
   - action: notify.mobile_app_pixel_11_pro
     metadata: {}
     data:
-      message: Current range is {{ states("sensor.vendetta_est_battery_range") | round(0)
+      message: Current range is {{ states("sensor.vendetta_rated_battery_range") | round(0)
         }} miles
       title: Plug in Vendetta
       data:
@@ -306,18 +262,41 @@
       entity_id: switch.dehumidifier_2
   mode: single
 - id: '1755586424225'
-  alias: Stop Vicky Charging AM
-  description: ''
+  alias: Stop Cars Charging AM
+  description: Stop charging at 7:00 AM for any car currently charging at home
   triggers:
   - trigger: time
-    at: 06:45:00
+    at: 07:00:00
   conditions: []
   actions:
-  - action: switch.turn_off
-    metadata: {}
-    data: {}
-    target:
-      entity_id: switch.victoria_charge
+  - if:
+    - condition: state
+      entity_id: sensor.victoria_state
+      state: charging
+    - condition: state
+      entity_id: device_tracker.victoria_location_2
+      state: home
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.victoria_charge
+      continue_on_error: true
+  - if:
+    - condition: state
+      entity_id: sensor.vendetta_state
+      state: charging
+    - condition: state
+      entity_id: device_tracker.vendetta_location
+      state: home
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.vendetta_charge
+      continue_on_error: true
   mode: single
 - id: '1771382915027'
   alias: SSL Renewal
