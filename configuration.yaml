@@ -55,17 +55,9 @@ sensor:
     end: "{{ now() }}"
 
   - platform: history_stats
-    name: Victoria's AJ Hours
-    entity_id: device_tracker.victoria_location_2
-    state: "Work-AJ"
-    type: time
-    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
-    end: "{{ now() }}"
-
-  - platform: history_stats
-    name: Victoria's WQ Hours
-    entity_id: device_tracker.victoria_location_2
-    state: "Work-WQ"
+    name: Laura's Gardens Hours
+    entity_id: person.laura
+    state: "Gardens"
     type: time
     start: "{{ now().replace(hour=0, minute=0, second=0) }}"
     end: "{{ now() }}"
@@ -82,6 +74,14 @@ sensor:
     name: Vendetta's AJ Hours
     entity_id: device_tracker.vendetta_location
     state: "Work-AJ"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Vendetta's Gardens Hours
+    entity_id: device_tracker.vendetta_location
+    state: "Gardens"
     type: time
     start: "{{ now().replace(hour=0, minute=0, second=0) }}"
     end: "{{ now() }}"
