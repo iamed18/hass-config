@@ -86,10 +86,10 @@
   mode: single
 - id: '1739340078163'
   alias: Vendetta Plugin Reminder
-  description: Notify Ed and Laura at 10 PM if Vendetta is unplugged and below 150 miles rated range
+  description: Notify Ed and Laura at 8:30 PM if Vendetta is unplugged and below 150 miles rated range
   triggers:
   - trigger: time
-    at: '22:00:00'
+    at: '20:30:00'
   conditions:
   - condition: state
     entity_id: binary_sensor.vendetta_plugged_in
