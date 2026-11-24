@@ -465,3 +465,34 @@
     target:
       entity_id: switch.noise_machine
   mode: single
+- id: '1795478002000'
+  alias: Vendetta Navigating Home Notification
+  description: Notify Ed on Hinton when Vendetta's active route destination stays Home for 2 minutes while Laura is away
+  triggers:
+  - trigger: template
+    value_template: >-
+      {{ is_state('device_tracker.vendetta_1_active_route_location', 'home')
+         or states('sensor.vendetta_active_route_destination') | lower == 'home' }}
+    for:
+      minutes: 2
+  conditions:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.laura
+      state: home
+  actions:
+  - action: notify.mobile_app_hinton
+    metadata: {}
+    data:
+      title: Vendetta Heading Home
+      message: >-
+        {% set mins = states('sensor.vendetta_active_route_minutes_to_arrival') %}
+        {% if mins | is_number %}
+          Vendetta is navigating home (ETA ~{{ mins | float | round(0) }} min).
+        {% else %}
+          Vendetta is navigating home.
+        {% endif %}
+      data:
+        notification_icon: mdi:navigation-variant
+  mode: single
