@@ -20,6 +20,8 @@ scene: !include scenes.yaml
 mqtt: !include mqtt_sensors.yaml
 # mqtt: !include mqtt_sensors_2.yaml
 
+powercalc: !include powercalc.yaml
+
 #notify:
   #  - name: "ChurchBot"
   #    platform: telegram
@@ -85,3 +87,139 @@ sensor:
     type: time
     start: "{{ now().replace(hour=0, minute=0, second=0) }}"
     end: "{{ now() }}"
+
+  # Riemann sum (kWh) integrators for Home EV Charging & Geothermal HVAC.
+  # Uses method: left + 5-min sub-intervals so step loads never create trapezoidal spikes.
+  - platform: integration
+    source: sensor.vendetta_home_charging_power
+    name: Vendetta Home Charging Energy
+    unique_id: vendetta_home_charging_energy
+    unit_prefix: k
+    round: 3
+    method: left
+    max_sub_interval:
+      minutes: 5
+
+  - platform: integration
+    source: sensor.victoria_home_charging_power
+    name: Victoria Home Charging Energy
+    unique_id: victoria_home_charging_energy
+    unit_prefix: k
+    round: 3
+    method: left
+    max_sub_interval:
+      minutes: 5
+
+  - platform: integration
+    source: sensor.living_room_geothermal_power
+    name: Living Room Geothermal Energy
+    unique_id: living_room_geothermal_energy
+    unit_prefix: k
+    round: 3
+    method: left
+    max_sub_interval:
+      minutes: 5
+
+  - platform: integration
+    source: sensor.master_bedroom_geothermal_power
+    name: Master Bedroom Geothermal Energy
+    unique_id: master_bedroom_geothermal_energy
+    unit_prefix: k
+    round: 3
+    method: left
+    max_sub_interval:
+      minutes: 5
+
+template:
+  - sensor:
+      # Wall-side AC power (V * A) from TeslaMate while charging at Home.
+      - name: Vendetta Home Charging Power
+        unique_id: vendetta_home_charging_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        icon: mdi:ev-station
+        state: >-
+          {% set at_home = (states('sensor.vendetta_geofence') | lower == 'home')
+                           or is_state('device_tracker.vendetta_location', 'home') %}
+          {% if at_home and is_state('sensor.vendetta_state', 'charging') %}
+            {% set v = states('sensor.vendetta_charger_voltage_2') | float(0) %}
+            {% set a = states('sensor.vendetta_charger_actual_current') | float(0) %}
+            {% set phases = states('sensor.vendetta_charger_phases') | int(1) %}
+            {{ (v * a * (3 if phases == 3 else 1)) | round(1) }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: Victoria Home Charging Power
+        unique_id: victoria_home_charging_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        icon: mdi:ev-station
+        state: >-
+          {% set at_home = (states('sensor.victoria_geofence') | lower == 'home')
+                           or is_state('device_tracker.victoria_location_2', 'home') %}
+          {% if at_home and is_state('sensor.victoria_state', 'charging') %}
+            {% set v = states('sensor.victoria_charger_voltage_2') | float(0) %}
+            {% set a = states('sensor.victoria_charger_actual_current') | float(0) %}
+            {% set phases = states('sensor.victoria_charger_phases') | int(1) %}
+            {{ (v * a * (3 if phases == 3 else 1)) | round(1) }}
+          {% else %}
+            0
+          {% endif %}
+
+      # Living Room: 4-ton geothermal heat pump + aux heat strip below 15 °F outdoor temp.
+      # Estimates: 3200 W heating (~COP 4 w/ loop pump + blower), 7700 W w/ extreme-cold aux,
+      # 2500 W cooling (~EER 19), 300 W fan-only, 10 W standby.
+      - name: Living Room Geothermal Power
+        unique_id: living_room_geothermal_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        icon: mdi:heat-pump
+        state: >-
+          {% set mode = states('climate.living_room_living_room') %}
+          {% if mode in ['unavailable', 'unknown'] %}
+            0
+          {% else %}
+            {% set action = state_attr('climate.living_room_living_room', 'hvac_action') %}
+            {% set fan = state_attr('climate.living_room_living_room', 'fan_mode') %}
+            {% set out_temp = state_attr('weather.forecast_home', 'temperature') | float(50) %}
+            {% if action == 'heating' %}
+              {{ 7700 if out_temp < 15 else 3200 }}
+            {% elif action == 'cooling' %}
+              2500
+            {% elif action == 'fan' or fan == 'on' %}
+              300
+            {% else %}
+              10
+            {% endif %}
+          {% endif %}
+
+      # Master Bedroom: 1.5-ton geothermal heat pump + aux heat strip below 15 °F outdoor temp.
+      # Estimates: 1250 W heating, 3250 W w/ extreme-cold aux, 950 W cooling, 120 W fan-only, 8 W standby.
+      - name: Master Bedroom Geothermal Power
+        unique_id: master_bedroom_geothermal_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        icon: mdi:heat-pump
+        state: >-
+          {% set mode = states('climate.main_bedroom_master_bedroom') %}
+          {% if mode in ['unavailable', 'unknown'] %}
+            0
+          {% else %}
+            {% set action = state_attr('climate.main_bedroom_master_bedroom', 'hvac_action') %}
+            {% set fan = state_attr('climate.main_bedroom_master_bedroom', 'fan_mode') %}
+            {% set out_temp = state_attr('weather.forecast_home', 'temperature') | float(50) %}
+            {% if action == 'heating' %}
+              {{ 3250 if out_temp < 15 else 1250 }}
+            {% elif action == 'cooling' %}
+              950
+            {% elif action == 'fan' or fan == 'on' %}
+              120
+            {% else %}
+              8
+            {% endif %}
+          {% endif %}

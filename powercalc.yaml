@@ -1,0 +1,218 @@
+energy_integration_method: left
+create_energy_sensors: true
+ignore_unavailable_state: true
+unavailable_power: 0
+discovery:
+  enabled: false
+
+sensors:
+  - create_group: House Lighting
+    entities:
+      # Lutron Caseta dimmers
+      - entity_id: light.kitchen_main_lights
+        standby_power: 0.4
+        linear:
+          min_power: 6
+          max_power: 54
+      - entity_id: light.kitchen_island_pendants
+        standby_power: 0.4
+        linear:
+          min_power: 3
+          max_power: 27
+      - entity_id: light.kitchen_under_cabinet
+        standby_power: 0.4
+        linear:
+          min_power: 2
+          max_power: 18
+      - entity_id: light.kitchen_display_cabinet
+        standby_power: 0.4
+        linear:
+          min_power: 1.5
+          max_power: 12
+      - entity_id: light.family_room_main_lights
+        standby_power: 0.4
+        linear:
+          min_power: 6
+          max_power: 54
+      - entity_id: light.front_foyer_chandelier
+        standby_power: 0.4
+        linear:
+          min_power: 4
+          max_power: 36
+      - entity_id: light.living_room_fireplace
+        standby_power: 0.4
+        linear:
+          min_power: 3
+          max_power: 24
+      - entity_id: light.living_room_nook
+        standby_power: 0.4
+        linear:
+          min_power: 2
+          max_power: 18
+      - entity_id: light.office_spot_lights
+        standby_power: 0.4
+        linear:
+          min_power: 4
+          max_power: 36
+      - entity_id: light.garage_entry_sconces
+        standby_power: 0.4
+        linear:
+          min_power: 2
+          max_power: 18
+      - entity_id: light.exterior_driveway_light
+        standby_power: 0.4
+        linear:
+          min_power: 3
+          max_power: 24
+      - entity_id: light.exterior_back_patio_flood
+        standby_power: 0.4
+        linear:
+          min_power: 4
+          max_power: 32
+      - entity_id: light.exterior_south_yard_flood
+        standby_power: 0.4
+        linear:
+          min_power: 4
+          max_power: 32
+      - entity_id: light.exterior_deck_light
+        standby_power: 0.4
+        linear:
+          min_power: 2
+          max_power: 18
+      - entity_id: light.exterior_patio_path_lights
+        standby_power: 0.4
+        linear:
+          min_power: 3
+          max_power: 24
+
+      # Lutron Caseta wall switch
+      - entity_id: switch.exterior_flaming_lamps
+        standby_power: 0.4
+        fixed:
+          power: 12
+
+      # Kasa smart-plug lighting loads
+      - entity_id: switch.corner_lamp
+        standby_power: 0.6
+        fixed:
+          power: 9
+      - entity_id: switch.dining_garland
+        standby_power: 0.6
+        fixed:
+          power: 8
+      - entity_id: switch.living_room_garland
+        standby_power: 0.6
+        fixed:
+          power: 8
+
+      # Hardware-metered Kasa bulbs (integrate hardware W directly so group energy stays monotonic across midnight)
+      - entity_id: light.standing_lamp
+        power_sensor_id: sensor.tp_link_smart_bulb_e667_current_consumption
+        force_energy_sensor_creation: true
+      - entity_id: light.dining_lamp_bulb
+        power_sensor_id: sensor.tp_link_smart_bulb_111e_current_consumption
+        force_energy_sensor_creation: true
+      - entity_id: light.laura_nightstand_bulb
+        power_sensor_id: sensor.tp_link_smart_bulb_ea4f_current_consumption
+        force_energy_sensor_creation: true
+      - entity_id: light.ed_nightstand_bulb
+        power_sensor_id: sensor.tp_link_smart_bulb_a54e_current_consumption
+        force_energy_sensor_creation: true
+      - entity_id: light.entryway_bulb
+        power_sensor_id: sensor.tp_link_smart_bulb_9fbe_current_consumption
+        force_energy_sensor_creation: true
+
+  - create_group: Media and Speakers
+    entities:
+      - entity_id: media_player.family_room_tv_3
+        name: Family Room OLED TV
+        standby_power: 0.5
+        fixed:
+          power: 155
+      - entity_id: media_player.family_room
+        name: Family Room Sonos Beam
+        standby_power: 3.6
+        fixed:
+          states_power:
+            playing: 12.5
+            paused: 4.0
+            idle: 3.6
+      - entity_id: media_player.kitchen
+        name: Kitchen Sonos
+        standby_power: 2.4
+        fixed:
+          states_power:
+            playing: 7.5
+            paused: 2.6
+            idle: 2.4
+      - entity_id: media_player.living_room
+        name: Living Room Sonos
+        standby_power: 2.4
+        fixed:
+          states_power:
+            playing: 7.5
+            paused: 2.6
+            idle: 2.4
+      - entity_id: media_player.unnamed_room
+        name: Sonos Roam 2
+        standby_power: 1.2
+        fixed:
+          states_power:
+            playing: 4.5
+            paused: 1.5
+            idle: 1.2
+      - entity_id: media_player.office_speaker
+        name: Office Nest Mini
+        standby_power: 1.7
+        fixed:
+          states_power:
+            playing: 4.2
+            paused: 1.9
+            idle: 1.7
+            "off": 1.7
+
+  - create_group: Laundry and Plugs
+    entities:
+      - entity_id: sensor.washer_current_status
+        name: LG Washer
+        fixed:
+          states_power:
+            running: 180
+            spinning: 380
+            rinsing: 120
+            prewash: 180
+            initial: 25
+            detecting: 40
+            drying: 450
+            refreshing: 200
+            pause: 5
+            end: 3
+            power_off: 0.5
+      - entity_id: sensor.dryer_current_status
+        name: LG Electric Dryer
+        fixed:
+          states_power:
+            running: 2600
+            cooling: 220
+            wrinkle_care: 120
+            initial: 15
+            pause: 5
+            end: 3
+            power_off: 0.5
+      - entity_id: switch.noise_machine
+        name: Bedroom Noise Machine
+        standby_power: 0.6
+        fixed:
+          power: 5.0
+
+  - create_group: Always-On IT and Network
+    entities:
+      - entity_id: sensor.churchstor_cpu_utilization_total
+        name: ChurchStor Synology NAS
+        fixed:
+          power: "{{ (15.0 + (states('sensor.churchstor_cpu_utilization_total') | float(5) * 0.07)) | round(1) }}"
+      - name: Home Assistant and Network Baseline
+        unique_id: pc_hass_network_baseline
+        daily_fixed_energy:
+          value: 30
+          unit_of_measurement: W
